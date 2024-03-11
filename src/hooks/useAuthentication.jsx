@@ -56,6 +56,53 @@ export const useAuthentication = () => {
         }
     };
 
+    //logout - sign out
+    const logout = async () => {
+        checkIfCancelled();
+        setLoading(true);
+        setError(null);
+        try {
+            await signOut(auth);
+            setLoading(false);
+        } catch (error) {
+            console.log(error.message);
+            setLoading(false);
+            setError("Erro ao sair da conta");
+        }
+    };
+
+    //login - sign in
+    const login = async (data) => {
+        checkIfCancelled();
+        setLoading(true);
+        setError(null);
+        try {
+            const { user } = await signInWithEmailAndPassword(
+                auth,
+                data.email,
+                data.password
+            );
+            setLoading(false);
+            return user;
+        } catch (error) {
+            let systemErrorMessages
+            if (error.message.includes("user-not-found")){
+                systemErrorMessages = "Usuario não encontrado";
+                
+            } else if(error.message.includes("wrong-password") || error.message.includes("INVALID_LOGIN_CREDENTIALS")){
+                systemErrorMessages = "Usuario/senha inválida";
+            }else if(error.message == 'Firebase: Error (auth/invalid-credential).'){
+                systemErrorMessages = "Usuario/senha inválida";
+            }else{
+                systemErrorMessages = "Erro ao logar";
+            }
+
+            console.log(error.message);
+            setLoading(false);
+            setError(systemErrorMessages);
+        }
+    };
+
     useEffect(() => {
         return () => {
             setCancelled(true);
@@ -67,5 +114,7 @@ export const useAuthentication = () => {
         createUser,
         error,
         loading,
+        logout,
+        login,
     }
 }
