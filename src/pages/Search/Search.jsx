@@ -4,8 +4,6 @@ import { useQuery } from '../../hooks/useQuery'
 import PostDetail from '../../components/PostDetail';
 import { Link } from 'react-router-dom';
 
-
-
 const Search = () => {
     const query = useQuery();
     const search = query.get('q');
@@ -16,12 +14,12 @@ const Search = () => {
         <div className={styles.search_container}>
             <h2>Search</h2>
             <div>
-                {loading && <p>Carregando...</p>}
+                {loading && <p>Loading...</p>}
                 {posts && posts.length === 0 && (
                     <div className={styles.noposts}>
                         <p>Não foram encontrados posts</p>
-                        <Link to='/' className="btn btn-dark">Voltar</Link>
-                    <div/>
+                        <Link to="/">Voltar</Link>
+                    </div>
                 )}
                 {posts && posts.map((post) => (
                     <PostDetail key={post.id} post={post}/>

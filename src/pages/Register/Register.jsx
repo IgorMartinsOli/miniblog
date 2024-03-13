@@ -28,9 +28,7 @@ const Register = () => {
             return;
         }
     
-        const res = await createUser(user);
-    
-        console.log(res);
+        await createUser(user);
     };
 
     useEffect(() => {
@@ -87,7 +85,6 @@ const Register = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </label>
-                {console.log(loading)}
                 {!loading && <button className='btn' type='submit'>Cadastrar</button>}
                 {loading && <button className='btn' type='submit' disabled>Cadastrando...</button>}
                 {error && <p className='error'>{error}</p>}
